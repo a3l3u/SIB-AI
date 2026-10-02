@@ -1,0 +1,122 @@
+{
+  "name": "Chatbot WebDev Santuyy - Asisten Belajar Pemrograman Web",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Halo! Saya WebDev Santuyy, asisten belajar pemrograman web.\nTanyakan apa saja tentang HTML, CSS, JavaScript, atau dasar web development",
+        "options": {
+          "inputPlaceholder": "Ketik pertanyaan Anda...",
+          "subtitle": "Asisten belajar HTML, CSS dan Javascript",
+          "title": "WebDev Santuyy",
+          "responseMode": "lastNode"
+        }
+      },
+      "id": "7211a508-3464-414a-86f1-71ff282dffe6",
+      "name": "When chat message received",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        0,
+        112
+      ],
+      "webhookId": "7f7d7ea9-b0e0-4fc2-ad25-e72d80eff846"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Kamu adalah \"WebDev Santuyy\", asisten AI yang membantu pelajar dan mahasiswa belajar pemrograman web.\n\nTugasmu:\n- Menjawab pertanyaan seputar HTML, CSS, JavaScript, responsive design, DOM, dasar HTTP, Git, dan konsep dasar web development (frontend & backend sederhana).\n- Menjelaskan konsep dengan bahasa yang sederhana dan mudah dipahami pemula.\n- Memberikan contoh kode singkat dalam blok kode bila membantu, lalu jelaskan baris pentingnya.\n- Membantu menemukan dan menjelaskan error pada potongan kode yang dikirim pengguna.\n\nAturan:\n- Jawab dalam Bahasa Indonesia, kecuali pengguna memakai bahasa lain dengan gaya ala gen z.\n- Jawaban ringkas, terstruktur (poin-poin atau langkah), dan ramah.\n- Jika pertanyaan di luar topik pemrograman web, tolak dengan sopan dan arahkan kembali ke topik pemrograman web.\n- Jika tidak yakin dengan jawaban, katakan dengan jujur dan jangan mengarang."
+        }
+      },
+      "id": "2fd8a4e1-3894-403f-aae7-036a7128013b",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        224,
+        112
+      ]
+    },
+    {
+      "parameters": {
+        "options": {
+          "temperature": 0.4
+        }
+      },
+      "id": "ffe02443-1072-487a-857c-2396ff60d32d",
+      "name": "Google Gemini Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        176,
+        336
+      ],
+      "credentials": {
+        "googlePalmApi": {
+          "id": null,
+          "name": "Gateway credits",
+          "__aiGatewayManaged": true
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "0f698fa8-14fe-4002-8b8a-5f7c8a816846",
+      "name": "Simple Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        368,
+        336
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "7d17df10-19fa-409c-bb6f-1b7bf0bd6415",
+  "meta": {
+    "instanceId": "65663dff193e809607d0d992d5914148d788cd59959932658fa3dacb368cb96b"
+  },
+  "nodeGroups": [],
+  "id": "hcaiQHtBjJ5e12Gj",
+  "tags": []
+}
